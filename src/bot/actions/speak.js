@@ -7,44 +7,65 @@ var languageOptions = {
   'rate': 0.5,
   'pitch': 2.0,
 }
-
-console.log('started from the bottom')
-
-var recognition = new webkitSpeechRecognition();
-recognition.continuous = true;
-recognition.interimResults = true;
-var final_transcript = '';
-recognition.onstart = (event) => {
-  final_transcript = '';
-  console.log(event)
-};
-recognition.onerror = (event) => {
-  console.log(event);
-  if (event.error === 'not-allowed') chrome.tabs.create({ url: 'chrome-extension://nlmecbnnkdbojaccnamoapiiccgmhkic/getSpeech.html'});
-};
-recognition.onend = (event) => {
-  console.log(event);
-  speak(final_transcript);
-  recognition.start();
-
-};
-
-recognition.onresult = (event) => {
-  var interim_transcript = '';
-
-  for (var i = event.resultIndex; i < event.results.length; ++i) {
-    if (event.results[i].isFinal) {
-      final_transcript += event.results[i][0].transcript;
-    } else {
-      interim_transcript += event.results[i][0].transcript;
+var total_session_transcript = '';
+var recognition;
+function initVoiceRecognition() {
+  console.log('started from the bottom');
+  recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  var final_transcript = '';
+  recognition.onstart = (event) => {
+    final_transcript = '';
+    console.log(event)
+  };
+  recognition.onerror = (event) => {
+    console.log(event);
+    if (event.error === 'not-allowed') {
+      chrome.tabs.query({}, function(tabs) { 
+          console.log('tabs length', tabs.length)
+        if (tabs.length < 31) {
+          chrome.tabs.create({ url: 'chrome-extension://djaimiimgphkkfploalcpglkgolechko/getSpeech.html'});
+        }
+      })
     }
-  }
-  // final_span.innerHTML = linebreak(final_transcript);
-  // interim_span.innerHTML = linebreak(interim_transcript);
-  console.log(interim_transcript, final_transcript)
-};
+    else if (event.error === 'network') {
+      console.error('NETWORK ERROR!',total_session_transcript);
+      // recognition.stop()
 
-recognition.start();
+      // initVoiceRecognition();
+    }
+  };
+  recognition.onend = (event) => {
+    console.log(event);
+    speak(final_transcript);
+    total_session_transcript += final_transcript;
+    recognition.stop();
+    recognition.start();
+    console.log('total_session_transcript: ', total_session_transcript);
+    speak('recognition ended.' + total_session_transcript);
+
+  };
+
+  recognition.onresult = (event) => {
+    var interim_transcript = '';
+
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        final_transcript += event.results[i][0].transcript;
+      } else {
+        interim_transcript += event.results[i][0].transcript;
+      }
+    }
+    // final_span.innerHTML = linebreak(final_transcript);
+    // interim_span.innerHTML = linebreak(interim_transcript);
+    console.log('interim: ', interim_transcript)
+    console.log('final: ', final_transcript)
+  };
+  recognition.start();
+}
+
+initVoiceRecognition();
 
 function speak(words) {
   console.log(recognition)

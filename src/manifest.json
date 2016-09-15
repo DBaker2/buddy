@@ -31,7 +31,7 @@
       ]
     }
   ],
-  "content_security_policy": "script-src 'self' 'sha256-gD04ThUKabNbBO6E3cNknVdHpIqcbbJfaM0mL9hKaVc='",
+  "content_security_policy": "script-src 'self' 'sha256-1CARryDc4mQHlTj8JBDmgF38QwvvWs93P5gjP4nFb2o='; object-src 'self'",
   "background": {
     "scripts": [
       "./bot/actions/speak.js",
