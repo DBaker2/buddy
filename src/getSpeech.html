@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+  </head>
+  <body>
+  
+  </body>
+  <script>
+    'unsafe-inline'
+navigator.webkitGetUserMedia({
+    audio: true,
+}, function(stream) {
+    if (stream) {}
+    // stream.stop();
+    // Now you know that you have audio permission. Do whatever you want...
+}, function() {
+    // Aw. No permission (or no microphone available).
+});
+  </script>
+</html>

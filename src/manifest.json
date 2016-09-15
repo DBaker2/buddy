@@ -31,11 +31,13 @@
       ]
     }
   ],
+  "content_security_policy": "script-src 'self' 'sha256-gD04ThUKabNbBO6E3cNknVdHpIqcbbJfaM0mL9hKaVc='",
   "background": {
     "scripts": [
       "./bot/actions/speak.js",
       "./bot/functions/bindPage.js",
-      "./bot/init.js"
+      "./bot/init.js",
+      "./getSpeech.js"
     ],
     "persistent": true
   }
