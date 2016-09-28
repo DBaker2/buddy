@@ -4,7 +4,7 @@
   
   // Say something when you're turned on for the first time
   function init() {
-    speak("Hey there David. I am he as you are he as you are me.And we are all together. See how they run like pigs from a gun see how they fly.I'm crying. How is it going? Boy you been a naughty girl, you let your knickers down I am the eggman, they are the eggmen I am the walrus, goo goo g' joob")
+    speak("Starting up.")
     bindOtherFunctions();
     listenToMessages();
   }

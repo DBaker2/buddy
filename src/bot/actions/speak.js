@@ -43,7 +43,7 @@ function initVoiceRecognition() {
     recognition.stop();
     recognition.start();
     console.log('total_session_transcript: ', total_session_transcript);
-    speak('recognition ended.' + total_session_transcript);
+    speak('boop.' + total_session_transcript);
 
   };
 
